@@ -1,0 +1,81 @@
+{
+  "variables": {
+    "vcenter_server": "",
+    "vcenter_username": "",
+    "vcenter_user_password" : "",
+    "vcenter_datacenter_name": "",
+    "vcenter_cluster_name": "",
+    "vcenter_network": "",
+    "iso_datastore": "",
+    "iso_folder": "",
+    "iso_name": "",
+    "iso_cheksum": "",
+    "vm_cpu_count": "",
+    "vm_cpu_core_per_socket": "",
+    "cpu_hot_plug": "true",
+    "vm_ram_in_mb": "",
+    "vm_ram_reservation": "false",
+    "vm_ram_hot_plug": "true",
+    "vm_datastore_name": "",
+    "vm_boot_command": "<tab> inst.text inst.ks=cdrom:/dev/sr1:/ks.cfg <enter><wait>",
+    "vm_template_folder": "",
+    "vm_ssh_user": "root",
+    "vm_ssh_password": "PASSWORD_!@#",
+    "vm_template_name": "",
+    "kickstart_file_name": "ks.cfg",
+    "disk_size_in_mb": "",
+    "gues_os_type": "centos8_64Guest",
+    "user_notes": "",
+    "disk_label": "sr1"
+  },
+
+  "builders": [
+    {
+      "CPUs": "{{user `vm_cpu_count` }}",
+      "cpu_cores": "{{user `vm_cpu_core_per_socket` }}",
+      "CPU_hot_plug": "{{user `cpu_hot_plug` }}",
+      "RAM": "{{user `vm_ram_in_mb` }}",
+      "RAM_reserve_all": "{{user `vm_ram_reservation` }}",
+      "RAM_hot_plug": "{{user `vm_ram_hot_plug` }}",
+      "boot_command": [
+          "{{user `vm_boot_command` }}"
+      ],
+      "cd_files": ["./{{user `kickstart_file_name` }}"],
+      "cd_label": "{{user `disk_label` }}",        
+      "boot_order": "disk,cdrom",
+      "boot_wait": "10s",
+      "cluster": "{{user `vcenter_cluster_name` }}",
+      "convert_to_template": "true",
+      "datacenter": "{{user `vcenter_datacenter_name` }}",
+      "datastore": "{{user `vm_datastore_name` }}",
+      "disk_controller_type": "pvscsi",
+      "folder": "{{user `vm_template_folder` }}",
+      "guest_os_type": "{{user `gues_os_type` }}",
+      "insecure_connection": "true",
+      "iso_paths": [
+        "[{{user `iso_datastore` }}] {{user `iso_folder` }}/{{user `iso_name` }}.iso"
+      ],
+      "iso_checksum": "md5:{{user `iso_cheksum` }}",
+      "network_adapters": [
+        {
+          "network": "{{user `vcenter_network` }}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "notes": "{{user `user_notes` }}",
+      "password": "{{user `vcenter_user_password` }}",
+      "ssh_password": "{{user `vm_ssh_password` }}",
+      "ssh_username": "{{user `vm_ssh_user` }}",
+      "storage": [
+        {
+          "disk_size": "{{user `disk_size_in_mb` }}",
+          "disk_thin_provisioned": "true"
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{user `vcenter_username` }}",
+      "vcenter_server": "{{user `vcenter_server` }}",
+      "vm_name": "{{user `vm_template_name` }}"
+    }
+  ]
+}  
