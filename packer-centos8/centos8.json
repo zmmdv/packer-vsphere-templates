@@ -75,7 +75,8 @@
       "type": "vsphere-iso",
       "username": "{{user `vcenter_username` }}",
       "vcenter_server": "{{user `vcenter_server` }}",
-      "vm_name": "{{user `vm_template_name` }}"
+      "vm_name": "{{user `vm_template_name` }}",
+      "remove_cdrom": true    
     }
   ]
 }  

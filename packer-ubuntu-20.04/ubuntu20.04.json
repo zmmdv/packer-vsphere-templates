@@ -1,0 +1,95 @@
+{
+    "variables": {
+      "vcenter_server": "",
+      "vcenter_username": "",
+      "vcenter_user_password" : "",
+      "vcenter_datacenter_name": "",
+      "vcenter_cluster_name": "",
+      "vcenter_network": "",
+      "iso_datastore": "",
+      "iso_folder": "ISO",
+      "iso_name": "ubuntu-20.04.2-live-server-amd64",
+      "vm_cpu_count": "4",
+      "vm_cpu_core_per_socket": "2",
+      "cpu_hot_plug": "true",
+      "vm_ram_in_mb": "4096",
+      "vm_ram_reservation": "false",
+      "vm_ram_hot_plug": "true",
+      "vm_datastore_name": "",
+      "vm_template_folder": "",
+      "vm_ssh_user": "ubuntu",
+      "vm_ssh_password": "ubuntu",
+      "vm_template_name": "UBUNTU-20.04-PACK",
+      "kickstart_file_name": "user-data",
+      "disk_size_in_mb": "61440",
+      "gues_os_type": "ubuntu64Guest",
+      "user_notes": "Template Made By Ziyaddin Mammadov",
+      "disk_label": "cidata"
+    },
+  
+    "builders": [
+      {
+        "CPUs": "{{user `vm_cpu_count` }}",
+        "cpu_cores": "{{user `vm_cpu_core_per_socket` }}",
+        "CPU_hot_plug": "{{user `cpu_hot_plug` }}",
+        "RAM": "{{user `vm_ram_in_mb` }}",
+        "RAM_reserve_all": "{{user `vm_ram_reservation` }}",
+        "RAM_hot_plug": "{{user `vm_ram_hot_plug` }}",
+        "boot_wait": "5s",
+        "boot_command": [
+            "<esc><esc><esc>",
+            "<enter><wait>",
+            "/casper/vmlinuz ",
+            "initrd=/casper/initrd ",
+            "autoinstall ",
+            "<enter>"
+        ],
+        "cd_files": ["./{{user `kickstart_file_name` }}", "./meta-data"],
+        "cd_label": "{{user `disk_label` }}",        
+        "boot_order": "disk,cdrom",
+        "cluster": "{{user `vcenter_cluster_name` }}",
+        "convert_to_template": "true",
+        "datacenter": "{{user `vcenter_datacenter_name` }}",
+        "datastore": "{{user `vm_datastore_name` }}",
+        "disk_controller_type": "pvscsi",
+        "folder": "{{user `vm_template_folder` }}",
+        "guest_os_type": "{{user `gues_os_type` }}",
+        "insecure_connection": "true",
+        "iso_paths": [
+          "[{{user `iso_datastore` }}] {{user `iso_folder` }}/{{user `iso_name` }}.iso"
+        ],
+        "network_adapters": [
+          {
+            "network": "{{user `vcenter_network` }}",
+            "network_card": "vmxnet3"
+          }
+        ],
+        "notes": "{{user `user_notes` }}",
+        "password": "{{user `vcenter_user_password` }}",
+        "ssh_password": "{{user `vm_ssh_password` }}",
+        "ssh_username": "{{user `vm_ssh_user` }}",
+        "storage": [
+          {
+            "disk_size": "{{user `disk_size_in_mb` }}",
+            "disk_thin_provisioned": "true"
+          }
+        ],
+        "type": "vsphere-iso",
+        "username": "{{user `vcenter_username` }}",
+        "vcenter_server": "{{user `vcenter_server` }}",
+        "vm_name": "{{user `vm_template_name` }}",
+        "remove_cdrom": true
+      }
+    ],
+
+    "provisioners": [
+      {
+        "type": "shell",
+        "inline": [
+          "sudo apt update -y",
+          "sudo apt upgrade -y",
+          "sudo apt install perl net-tools -y"
+        ]  
+      }
+   ]
+}

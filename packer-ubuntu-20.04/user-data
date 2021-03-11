@@ -1,0 +1,39 @@
+#cloud-config
+autoinstall:
+  version: 1
+  autoinstall:
+  early-commands:
+  - systemctl stop ssh
+  locale: en_US
+  keyboard:
+    layout: en
+    variant: us
+  network:
+    network:
+      version: 2
+      ethernets:
+        eth0:
+          dhcp4: no
+          addresses: [10.251.107.1/24]
+          gateway4: 10.251.107.254
+          nameservers:
+            addresses: [8.8.8.8]          
+  storage:
+    layout:
+      name: lvm
+  identity:
+    hostname: template-ubuntu-2004
+    username: ubuntu
+    password: $6$rounds=4096$8dkK1P/oE$2DGKKt0wLlTVJ7USY.0jN9du8FetmEr51yjPyeiR.zKE3DGFcitNL/nF1l62BLJNR87lQZixObuXYny.Mf17K1
+  update: yes
+  ssh:
+    install-server: yes
+  user-data:
+    disable_root: false
+  late-commands:
+    - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+    - sed -ie 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 ipv6.disable=1 biosdevname=0"/' /target/etc/default/grub
+    - curtin in-target --target /target update-grub2
+    - lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+    - systemctl start ssh
+    - netplan apply
