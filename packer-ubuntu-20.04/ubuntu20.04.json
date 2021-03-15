@@ -88,7 +88,9 @@
         "inline": [
           "sudo apt update -y",
           "sudo apt upgrade -y",
-          "sudo apt install perl net-tools -y"
+          "sudo apt install perl net-tools -y",
+          "echo 'preserve_hostname: true' | sudo tee -a /etc/cloud/cloud.cfg",
+          "sudo rm -f /etc/netplan/*"
         ]  
       }
    ]
