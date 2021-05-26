@@ -19,6 +19,5 @@
  # Author Information #
 * [Github](https://github.com/zmmdv/)
 * [Instagram](https://www.instagram.com/z.mmd/)
-* [Linkedin](https://www.linkedin.com/in/zmmdv)
 
 <p align="center"><img width="500" height="500" src="http://i1.wp.com/www.gilzilberfeld.com/wp-content/uploads/2016/11/1e4g401.jpg"></p>
