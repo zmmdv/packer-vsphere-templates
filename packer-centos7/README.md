@@ -163,7 +163,6 @@ file provided by [Gwyn Bleidd](https://github.com/caermeglaeddyv/)
 
  # Author Information #
 * [Github](https://github.com/zmmdv/)
-* [Instagram](https://www.instagram.com/z.mmd/)
-* [Linkedin](https://www.linkedin.com/in/zmmdv)           
+* [Instagram](https://www.instagram.com/z.mmd/)        
 
 <p align="center"><img width="600" height="428" src="https://media.makeameme.org/created/devops.jpg"></p>
