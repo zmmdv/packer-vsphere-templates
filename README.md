@@ -1,7 +1,7 @@
 
 <p align="center"><img width="915" height="418" src="https://www.andreyus.com/wp-content/uploads/2019/05/packer1.png"></p>
 
-# Hello friend! Welcome to my JSON template collections for HahiCorp Packer
+# Welcome to my JSON template collections for HahiCorp Packer
 
 ## It's simple as it can be.
 1. You have your kicstart file which in my template is `ks.cfg`
